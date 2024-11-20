@@ -42,6 +42,14 @@ subprojects {
 
     dependencies {
         minecraft("com.mojang:minecraft:${rootProject.minecraft_version}")
+                    // Add REI API for Fabric as compile-only
+            modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:17.0.790"
+            
+            // Add REI full mod for Fabric as runtime-only
+            modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:17.0.790"
+            
+            // Optional: If you want to interact with the default plugin
+            modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:17.0.790"
         mappings(loom.layered {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-1.17.1:2021.10.10@zip")
