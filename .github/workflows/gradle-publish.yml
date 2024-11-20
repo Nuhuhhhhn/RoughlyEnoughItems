@@ -1,0 +1,40 @@
+name: Build Minecraft Mod
+
+on:
+  push:
+    branches:
+      - main  # Adjust if you want to trigger on different branches
+  pull_request:
+    branches:
+      - main  # Adjust for pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '21'  # Use the appropriate Java version
+
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Build mod
+      run: ./gradlew build
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: mod-jar
+        path: build/libs/*.jar  # Adjust to match your .jar output path
+
